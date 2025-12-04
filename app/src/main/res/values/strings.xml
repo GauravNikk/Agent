@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Field Agent</string>
     <string name="user_name_format">%1$s %2$s</string>
+    <string name="settings">Settings</string>
 </resources>

@@ -73,4 +73,7 @@ dependencies {
     // SDP
     implementation("com.intuit.sdp:sdp-android:1.1.1")
     implementation("com.intuit.ssp:ssp-android:1.1.1")
+
+    // Shimmer
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }

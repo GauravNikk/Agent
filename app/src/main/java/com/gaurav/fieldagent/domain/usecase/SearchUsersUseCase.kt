@@ -7,7 +7,11 @@ import kotlinx.coroutines.flow.Flow
 
 class SearchUsersUseCase(private val userRepository: UserRepository) {
 
-    operator fun invoke(query: String): Flow<PagingData<User>> {
-        return userRepository.searchUsers(query)
+    fun searchLocalUsers(query: String): Flow<PagingData<User>> {
+        return userRepository.searchLocalUsers(query)
+    }
+
+    fun searchRemoteUsers(query: String): Flow<PagingData<User>> {
+        return userRepository.searchRemoteUsers(query)
     }
 }

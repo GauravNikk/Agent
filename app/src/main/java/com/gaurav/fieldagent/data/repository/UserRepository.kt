@@ -8,5 +8,7 @@ interface UserRepository {
 
     fun getUsers(): Flow<PagingData<User>>
 
-    fun searchUsers(query: String): Flow<PagingData<User>>
+    fun searchLocalUsers(query: String): Flow<PagingData<User>>
+
+    fun searchRemoteUsers(query: String): Flow<PagingData<User>>
 }

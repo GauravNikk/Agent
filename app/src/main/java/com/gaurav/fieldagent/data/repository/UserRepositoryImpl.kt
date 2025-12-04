@@ -10,8 +10,6 @@ import com.gaurav.fieldagent.data.local.AppDatabase
 import com.gaurav.fieldagent.data.model.User
 import com.gaurav.fieldagent.data.remote.ApiService
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
 
 class UserRepositoryImpl(
     private val apiService: ApiService,
@@ -31,27 +29,23 @@ class UserRepositoryImpl(
         ).flow
     }
 
-    override fun searchUsers(query: String): Flow<PagingData<User>> {
-        return flow {
-            val localUserCount = appDatabase.userDao().getUserCountForQuery("%${query}%")
-            val pager = if (localUserCount > 0) {
-                Pager(
-                    config = PagingConfig(
-                        pageSize = 20,
-                        enablePlaceholders = false
-                    ),
-                    pagingSourceFactory = { appDatabase.userDao().searchUsers("%${query}%") }
-                )
-            } else {
-                Pager(
-                    config = PagingConfig(
-                        pageSize = 20,
-                        enablePlaceholders = false
-                    ),
-                    pagingSourceFactory = { UserSearchPagingSource(apiService, query) }
-                )
-            }
-            emit(pager.flow)
-        }.flatMapLatest { it }
+    override fun searchLocalUsers(query: String): Flow<PagingData<User>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { appDatabase.userDao().searchUsers("%${query}%") }
+        ).flow
+    }
+
+    override fun searchRemoteUsers(query: String): Flow<PagingData<User>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { UserSearchPagingSource(apiService, query) }
+        ).flow
     }
 }

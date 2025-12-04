@@ -21,8 +21,11 @@ interface UserDao {
     fun searchUsers(query: String): PagingSource<Int, User>
 
     @Query("SELECT COUNT(*) FROM users WHERE firstName LIKE :query OR lastName LIKE :query")
-    fun getUserCountForQuery(query: String): Flow<Int>
+    suspend fun getUserCountForQuery(query: String): Int
+
 
     @Query("DELETE FROM users")
     suspend fun clearUsers()
+
+
 }
